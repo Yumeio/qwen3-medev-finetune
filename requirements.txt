@@ -1,0 +1,17 @@
+torch>=2.1.0
+transformers>=4.48.0
+peft>=0.10.0
+datasets>=2.18.0
+accelerate>=0.29.0
+bitsandbytes>=0.43.0
+scipy
+einops
+tiktoken
+transformers_stream_generator
+wandb
+sacrebleu
+evaluate
+tqdm
+python-dotenv
+trl>=0.8.0
+deepspeed

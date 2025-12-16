@@ -1,0 +1,67 @@
+### Model Arguments
+model_name_or_path: "Qwen/Qwen3-0.6B"
+cache_dir: "./model_cache"
+model_max_length: 2048
+trust_remote_code: true
+torch_dtype: "bfloat16"
+device_map: "auto"
+attn_implementation: "flash_attention_2"
+
+### Data Arguments
+train_file: "./dataset/processed/train.parquet"
+validation_file: "./dataset/processed/validation.parquet"
+preprocessing_num_workers: 1
+max_train_samples: null
+max_eval_samples: null
+packing: true
+
+### LoRA Arguments (QLoRA uses LoRA adapters)
+use_lora: true
+lora_r: 16 
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+  - "q_proj"
+  - "k_proj"
+  - "v_proj"
+  - "o_proj"
+  - "gate_proj"
+  - "up_proj"
+  - "down_proj"
+lora_bias: "none"
+lora_task_type: "CAUSAL_LM"
+
+### QLoRA Arguments
+use_qlora: true
+load_in_4bit: true
+load_in_8bit: false
+bnb_4bit_quant_type: "nf4"
+bnb_4bit_use_double_quant: true
+bnb_4bit_compute_dtype: "bfloat16"
+
+### IA3 Arguments
+use_ia3: false
+
+### Training Arguments
+output_dir: "./outputs/qlora_finetune"
+num_train_epochs: 5.0
+per_device_train_batch_size: 8
+per_device_eval_batch_size: 4
+gradient_accumulation_steps: 2 # Effective batch size = 32 * 4 = 128
+learning_rate: 0.0001
+max_grad_norm: 1.0
+warmup_ratio: 0.03
+lr_scheduler_type: "cosine"
+logging_steps: 1
+save_strategy: "steps"
+save_steps: 50
+eval_strategy: "steps"
+eval_steps: 50
+bf16: true
+fp16: false
+tf32: true
+optim: "adamw_torch_fused"
+report_to:
+  - "wandb"
+dataloader_pin_memory: true
+dataloader_num_workers: 1

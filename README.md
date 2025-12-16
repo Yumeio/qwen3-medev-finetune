@@ -1,1 +1,1 @@
-# qwen3-medev-finetune
+# qwen3-1.7B-finetune
